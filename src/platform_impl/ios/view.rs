@@ -2,10 +2,10 @@
 use std::cell::Cell;
 use std::ptr::NonNull;
 
-use icrate::Foundation::{CGFloat, CGRect, MainThreadMarker, NSObject, NSSet};
+use icrate::Foundation::{CGFloat, CGRect, MainThreadMarker, NSObject, NSObjectProtocol, NSSet};
 use objc2::declare::{Ivar, IvarDrop};
 use objc2::rc::Id;
-use objc2::runtime::{Bool, Class};
+use objc2::runtime::Class;
 use objc2::{declare_class, extern_methods, msg_send, msg_send_id, mutability, ClassType};
 
 use super::uikit::{
@@ -264,7 +264,7 @@ impl WinitView {
     }
 }
 
-struct ViewControllerState {
+pub struct ViewControllerState {
     prefers_status_bar_hidden: Cell<bool>,
     prefers_home_indicator_auto_hidden: Cell<bool>,
     supported_orientations: Cell<UIInterfaceOrientationMask>,
@@ -288,7 +288,7 @@ declare_class!(
     unsafe impl WinitViewController {
         #[method(init)]
         unsafe fn init(this: *mut Self) -> Option<NonNull<Self>> {
-            let this: Option<&mut Self> = unsafe { msg_send![super(this), init] };
+            let this: Option<&mut Self> = msg_send![super(this), init];
             this.map(|this| {
                 // These are set in WinitViewController::new, it's just to set them
                 // to _something_.

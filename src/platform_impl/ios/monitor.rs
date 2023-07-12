@@ -182,13 +182,8 @@ impl Inner {
             .uiscreen
             .availableModes()
             .into_iter()
-            .map(|mode| {
-                let mode: *const UIScreenMode = mode;
-                let mode = unsafe { Id::retain(mode as *mut UIScreenMode).unwrap() };
-
-                RootVideoMode {
-                    video_mode: VideoMode::new(self.uiscreen.clone(), mode),
-                }
+            .map(|mode| RootVideoMode {
+                video_mode: VideoMode::new(self.uiscreen.clone(), mode),
             })
             .collect();
 
@@ -237,10 +232,6 @@ impl Inner {
 pub fn uiscreens(mtm: MainThreadMarker) -> VecDeque<MonitorHandle> {
     UIScreen::screens(mtm)
         .into_iter()
-        .map(|screen| {
-            let screen: *const UIScreen = screen;
-            let screen = unsafe { Id::retain(screen as *mut UIScreen).unwrap() };
-            MonitorHandle::new(screen)
-        })
+        .map(MonitorHandle::new)
         .collect()
 }
