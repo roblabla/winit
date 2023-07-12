@@ -261,7 +261,7 @@ declare_class!(
         // IMKInputSession [0x7fc573576ff0 presentFunctionRowItemTextInputViewWithEndpoint:completionHandler:] : [self textInputContext]=0x7fc573558e10 *NO* NSRemoteViewController to client, NSError=Error Domain=NSCocoaErrorDomain Code=4099 "The connection from pid 0 was invalidated from this process." UserInfo={NSDebugDescription=The connection from pid 0 was invalidated from this process.}, com.apple.inputmethod.EmojiFunctionRowItem
         // TODO: Add an API extension for using `NSTouchBar`
         #[method_id(touchBar)]
-        fn touch_bar(&self) -> Option<Id<NSObject, Shared>> {
+        fn touch_bar(&self) -> Option<Id<NSObject>> {
             trace_scope!("touchBar");
             None
         }
@@ -378,7 +378,7 @@ declare_class!(
         }
 
         #[method_id(validAttributesForMarkedText)]
-        fn valid_attributes_for_marked_text(&self) -> Id<NSArray<NSAttributedStringKey>, Shared> {
+        fn valid_attributes_for_marked_text(&self) -> Id<NSArray<NSAttributedStringKey>> {
             trace_scope!("validAttributesForMarkedText");
             NSArray::new()
         }
@@ -388,7 +388,7 @@ declare_class!(
             &self,
             _range: NSRange,
             _actual_range: Option<&NSRange>,
-        ) -> Option<Id<NSAttributedString, Shared>> {
+        ) -> Option<Id<NSAttributedString>> {
             trace_scope!("attributedSubstringForProposedRange:actualRange:");
             None
         }
